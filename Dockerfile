@@ -1,4 +1,19 @@
-FROM adoptopenjdk/openjdk13-openj9:jdk-13.0.2_8_openj9-0.18.0-alpine-slim
-COPY build/libs/helloworld-*-all.jar helloworld.jar
+FROM gradle:latest AS TEMP_BUILD_IMAGE
+
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY build.gradle.kts settings.gradle.kts $APP_HOME
+  
+COPY . .
+RUN gradle clean build
+    
+FROM amazoncorretto:21
+
+ENV ARTIFACT_NAME=hello-0.1-all.jar
+ENV APP_HOME=/usr/app/
+    
+WORKDIR $APP_HOME
+COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
+    
 EXPOSE 8080
-CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-XX:+IdleTuningGcOnIdle", "-Xtune:virtualized", "-jar", "helloworld.jar"]
+ENTRYPOINT exec java -jar ${ARTIFACT_NAME}
