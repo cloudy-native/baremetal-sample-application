@@ -37,7 +37,8 @@ jobs:
         with:
           task-definition: ./src/main/resources/task-definition.json
           container-name: hello
-          image: ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
+          # image: ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
+          image: "607477397669.dkr.ecr.us-east-1.amazonaws.com/baremetal-hello:latest"
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
