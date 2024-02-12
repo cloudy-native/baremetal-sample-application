@@ -35,7 +35,7 @@ jobs:
           ECR_REPOSITORY: baremetal-hello
           IMAGE_TAG: ${{ github.event.inputs.image-tag }}
         with:
-          task-definition: task-definition.json
+          task-definition: ./src/main/resources/task-definition.json
           container-name: hello
           image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
