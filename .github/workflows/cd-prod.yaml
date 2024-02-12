@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "#########" ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
+      - name: Update Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         env:
@@ -48,7 +48,7 @@ jobs:
           # image: ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
           image: "607477397669.dkr.ecr.us-east-1.amazonaws.com/baremetal-hello:latest"
 
-      - name: Deploy Amazon ECS task definition
+      - name: Deploy Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
