@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import jakarta.inject.Inject;
 
 @MicronautTest
-class HelloApplicationTest {
+class HelloApplicationSmokeTest {
 
     @Inject
     EmbeddedApplication<?> application;
